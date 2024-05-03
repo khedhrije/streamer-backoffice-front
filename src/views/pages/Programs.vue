@@ -6,12 +6,12 @@
                     <template v-slot:start>
                         <div class="my-2">
                             <Button label="New" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
-                            <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="confirmDeleteSelected" :disabled="!selectedPrograms || !selectedPrograms.length" />
+                            <Button label="Ingest" icon="pi pi-cloud-download" class="p-button-warning" @click="openIngest" />
                         </div>
                     </template>
 
                     <template v-slot:end>
-                        <FileUpload mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block" />
+                        <FileUpload disabled mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block" />
                         <Button label="Export" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)" />
                     </template>
                 </Toolbar>
@@ -141,6 +141,19 @@
                     </template>
                 </Dialog>
 
+                <Dialog v-model:visible="programIngestDialog" :style="{ width: '600px' }" header="Program Ingest" :modal="true" class="p-fluid">
+                    <div class="field">
+                        <label for="permalink">Permalink</label>
+                        <InputText id="permalink" v-model.trim="permalink" required="true" autofocus :class="{ 'p-invalid': submitted && !permalink }" />
+                        <small class="p-invalid" v-if="submitted && !permalink">Permalink is required.</small>
+                    </div>
+
+                    <template #footer>
+                        <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
+                        <Button label="Save" icon="pi pi-check" class="p-button-text" @click="ingestProgram" />
+                    </template>
+                </Dialog>
+
                 <Dialog v-model:visible="deleteProgramDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
@@ -178,8 +191,10 @@ import router from '@/router';
 export default {
     data() {
         return {
+            permalink: null,
             programs: null,
             programDialog: false,
+            programIngestDialog: false,
             deleteProgramDialog: false,
             deleteProgramsDialog: false,
             program: {},
@@ -207,8 +222,14 @@ export default {
             this.submitted = false;
             this.programDialog = true;
         },
+        openIngest() {
+            this.program = {};
+            this.submitted = false;
+            this.programIngestDialog = true;
+        },
         hideDialog() {
             this.programDialog = false;
+            this.programIngestDialog = false;
             this.submitted = false;
         },
         saveProgram() {
@@ -230,6 +251,15 @@ export default {
                 this.program = {};
             }
         },
+        ingestProgram() {
+            this.submitted = true;
+            this.programService.ingestProgram(this.permalink).then(() => {
+                this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Program Ingestion started', life: 3000 });
+              this.permalink = null;
+              this.programIngestDialog = false;
+              this.submitted = false;
+            });
+        },
         editProgram(program) {
             this.program = { ...program };
             this.programDialog = true;
@@ -243,6 +273,7 @@ export default {
                 this.programService.getPrograms().then((data) => (this.programs = data));
                 this.deleteProgramDialog = false;
                 this.program = {};
+                this.submitted = false;
                 this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Program Deleted', life: 3000 });
             });
         },

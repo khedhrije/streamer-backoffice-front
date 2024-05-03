@@ -6,32 +6,31 @@
                     <template v-slot:start>
                         <div class="my-2">
                             <Button label="New" icon="pi pi-plus" class="p-button-success mr-2" @click="openNew" />
-                            <Button label="Delete" icon="pi pi-trash" class="p-button-danger" @click="confirmDeleteSelected" :disabled="!selectedProducts || !selectedProducts.length" />
                         </div>
                     </template>
 
                     <template v-slot:end>
-                        <FileUpload mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block" />
+                        <FileUpload disabled mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block" />
                         <Button label="Export" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)" />
                     </template>
                 </Toolbar>
 
                 <DataTable
                     ref="dt"
-                    :value="products"
-                    v-model:selection="selectedProducts"
-                    dataKey="id"
+                    :value="medias"
+                    v-model:selection="selectedMedias"
+                    dataKey="ID"
                     :paginator="true"
-                    :rows="10"
+                    :rows="5"
                     :filters="filters"
                     paginatorTemplate="FirstPageLink PrevPageLink PageLinks NextPageLink LastPageLink CurrentPageReport RowsPerPageDropdown"
                     :rowsPerPageOptions="[5, 10, 25]"
-                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} products"
+                    currentPageReportTemplate="Showing {first} to {last} of {totalRecords} medias"
                     responsiveLayout="scroll"
                 >
                     <template #header>
                         <div class="flex flex-column md:flex-row md:justify-content-between md:align-items-center">
-                            <h5 class="m-0">Manage Products</h5>
+                            <h5 class="m-0">Manage Medias</h5>
                             <IconField iconPosition="left" class="block mt-2 md:mt-0">
                                 <InputIcon class="pi pi-search" />
                                 <InputText class="w-full sm:w-auto" v-model="filters['global'].value" placeholder="Search..." />
@@ -39,78 +38,94 @@
                         </div>
                     </template>
 
-                    <Column selectionMode="multiple" headerStyle="width: 3rem"></Column>
-                    <Column field="code" header="Code" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+                    <Column selectionMode="multiple" headerStyle="max-width: 0.5rem"></Column>
+                    <Column header="Picture" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
-                            <span class="p-column-title">Code</span>
-                            {{ slotProps.data.code }}
+                            <span class="p-column-title">Picture</span>
+                            <img :src="slotProps.data.picture" :alt="slotProps.data.image" class="shadow-2" width="100" />
                         </template>
                     </Column>
-                    <Column field="name" header="Name" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+                    <Column field="ID" header="ID" :sortable="true" headerStyle="width:20%; min-width:10rem;">
+                        <template #body="slotProps">
+                            <span class="p-column-title">ID</span>
+                            {{ slotProps.data.ID }}
+                        </template>
+                    </Column>
+                    <Column field="title" header="Title" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Name</span>
-                            {{ slotProps.data.name }}
+                            {{ slotProps.data.title }}
                         </template>
                     </Column>
-                    <Column header="Image" headerStyle="width:14%; min-width:10rem;">
+                    <Column field="provider" header="Provider" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
-                            <span class="p-column-title">Image</span>
-                            <img :src="'/demo/images/product/' + slotProps.data.image" :alt="slotProps.data.image" class="shadow-2" width="100" />
+                            <span class="p-column-title">Provider</span>
+                            <span :class="'provider-badge provider-' + (slotProps.data.provider ? slotProps.data.provider.toLowerCase() : '')">{{ slotProps.data.provider }}</span>
                         </template>
                     </Column>
-                    <Column field="price" header="Price" :sortable="true" headerStyle="width:14%; min-width:8rem;">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Price</span>
-                            {{ formatCurrency(slotProps.data.price) }}
-                        </template>
-                    </Column>
-                    <Column field="category" header="Category" :sortable="true" headerStyle="width:14%; min-width:10rem;">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Category</span>
-                            {{ formatCurrency(slotProps.data.category) }}
-                        </template>
-                    </Column>
-                    <Column field="rating" header="Reviews" :sortable="true" headerStyle="width:14%; min-width:10rem;">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Rating</span>
-                            <Rating :modelValue="slotProps.data.rating" :readonly="true" :cancel="false" />
-                        </template>
-                    </Column>
-                    <Column field="inventoryStatus" header="Status" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+                    <Column field="status" header="Status" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Status</span>
-                            <span :class="'product-badge status-' + (slotProps.data.inventoryStatus ? slotProps.data.inventoryStatus.toLowerCase() : '')">{{ slotProps.data.inventoryStatus }}</span>
+                            <span :class="'status-badge status-' + (slotProps.data.status ? slotProps.data.status.toLowerCase() : '')">{{ slotProps.data.status }}</span>
+                        </template>
+                    </Column>
+                    <Column field="language" header="Language" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+                        <template #body="slotProps">
+                            <span class="p-column-title">Language</span>
+                            {{ slotProps.data.language }}
+                        </template>
+                    </Column>
+                    <Column field="country" header="Country" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+                        <template #body="slotProps">
+                            <span class="p-column-title">country</span>
+                            {{ slotProps.data.country }}
                         </template>
                     </Column>
                     <Column headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
-                            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editProduct(slotProps.data)" />
-                            <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProduct(slotProps.data)" />
+                            <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editMedia(slotProps.data)" />
+                            <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteMedia(slotProps.data)" />
                         </template>
                     </Column>
                 </DataTable>
 
-                <Dialog v-model:visible="productDialog" :style="{ width: '450px' }" header="Product Details" :modal="true" class="p-fluid">
-                    <img :src="'/demo/images/product/' + product.image" :alt="product.image" v-if="product.image" width="150" class="mt-0 mx-auto mb-5 block shadow-2" />
+                <Dialog v-model:visible="mediaDialog" :style="{ width: '600px' }" header="Media Details" :modal="true" class="p-fluid">
+                    <img :src="media.picture" :alt="media.picture" v-if="media.picture" width="150" class="mt-0 mx-auto mb-5 block shadow-2" />
                     <div class="field">
-                        <label for="name">Name</label>
-                        <InputText id="name" v-model.trim="product.name" required="true" autofocus :class="{ 'p-invalid': submitted && !product.name }" />
-                        <small class="p-invalid" v-if="submitted && !product.name">Name is required.</small>
+                        <label for="ID">ID</label>
+                        <InputText id="ID" v-model.trim="media.ID" :disabled="media.prvider != 'internal'" required="true" autofocus :class="{ 'p-invalid': submitted && !media.ID }" />
+                        <small class="p-invalid" v-if="submitted && !media.ID">ID is required.</small>
+                    </div>
+                    <div class="field">
+                        <label for="name">Title</label>
+                        <InputText id="title" v-model.trim="media.title" :disabled="media.prvider != 'internal'" required="true" autofocus :class="{ 'p-invalid': submitted && !media.title }" />
+                        <small class="p-invalid" v-if="submitted && !media.title">Title is required.</small>
                     </div>
                     <div class="field">
                         <label for="description">Description</label>
-                        <Textarea id="description" v-model="product.description" required="true" rows="3" cols="20" />
+                        <Textarea id="description" v-model="media.description" :disabled="media.prvider != 'internal'" required="true" rows="5" cols="20" />
+                    </div>
+
+                    <div class="formgrid grid">
+                        <div class="field col">
+                            <label for="provider">Country</label>
+                            <InputText id="provider" v-model="media.country" :disabled="media.prvider != 'internal'" />
+                        </div>
+                        <div class="field col">
+                            <label for="provider">Language</label>
+                            <InputText id="provider" v-model="media.language" :disabled="media.prvider != 'internal'" />
+                        </div>
                     </div>
 
                     <div class="field">
-                        <label for="inventoryStatus" class="mb-3">Inventory Status</label>
-                        <Dropdown id="inventoryStatus" v-model="product.inventoryStatus" :options="statuses" optionLabel="label" placeholder="Select a Status">
+                        <label for="status" class="mb-3">Status</label>
+                        <Dropdown id="status" v-model="media.status" :options="statuses" optionLabel="label" placeholder="Select a Status">
                             <template #value="slotProps">
                                 <div v-if="slotProps.value && slotProps.value.value">
-                                    <span :class="'product-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
+                                    <span :class="'status-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
                                 </div>
                                 <div v-else-if="slotProps.value && !slotProps.value.value">
-                                    <span :class="'product-badge status-' + slotProps.value.toLowerCase()">{{ slotProps.value }}</span>
+                                    <span :class="'status-badge status-' + slotProps.value.toLowerCase()">{{ slotProps.value }}</span>
                                 </div>
                                 <span v-else>
                                     {{ slotProps.placeholder }}
@@ -119,66 +134,35 @@
                         </Dropdown>
                     </div>
 
-                    <div class="field">
-                        <label class="mb-3">Category</label>
-                        <div class="formgrid grid">
-                            <div class="field-radiobutton col-6">
-                                <RadioButton id="category1" name="category" value="Accessories" v-model="product.category" />
-                                <label for="category1">Accessories</label>
-                            </div>
-                            <div class="field-radiobutton col-6">
-                                <RadioButton id="category2" name="category" value="Clothing" v-model="product.category" />
-                                <label for="category2">Clothing</label>
-                            </div>
-                            <div class="field-radiobutton col-6">
-                                <RadioButton id="category3" name="category" value="Electronics" v-model="product.category" />
-                                <label for="category3">Electronics</label>
-                            </div>
-                            <div class="field-radiobutton col-6">
-                                <RadioButton id="category4" name="category" value="Fitness" v-model="product.category" />
-                                <label for="category4">Fitness</label>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="formgrid grid">
-                        <div class="field col">
-                            <label for="price">Price</label>
-                            <InputNumber id="price" v-model="product.price" mode="currency" currency="USD" locale="en-US" />
-                        </div>
-                        <div class="field col">
-                            <label for="quantity">Quantity</label>
-                            <InputNumber id="quantity" v-model="product.quantity" integeronly />
-                        </div>
-                    </div>
                     <template #footer>
                         <Button label="Cancel" icon="pi pi-times" class="p-button-text" @click="hideDialog" />
-                        <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveProduct" />
+                        <Button label="Save" icon="pi pi-check" class="p-button-text" @click="saveMedia" />
                     </template>
                 </Dialog>
 
-                <Dialog v-model:visible="deleteProductDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
+
+                <Dialog v-model:visible="deleteMediaDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-                        <span v-if="product"
-                            >Are you sure you want to delete <b>{{ product.name }}</b
+                        <span v-if="media"
+                            >Are you sure you want to delete <b>{{ media.name }}</b
                             >?</span
                         >
                     </div>
                     <template #footer>
-                        <Button label="No" icon="pi pi-times" class="p-button-text" @click="deleteProductDialog = false" />
-                        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteProduct" />
+                        <Button label="No" icon="pi pi-times" class="p-button-text" @click="deleteMediaDialog = false" />
+                        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteMedia" />
                     </template>
                 </Dialog>
 
-                <Dialog v-model:visible="deleteProductsDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
+                <Dialog v-model:visible="deleteMediasDialog" :style="{ width: '450px' }" header="Confirm" :modal="true">
                     <div class="flex align-items-center justify-content-center">
                         <i class="pi pi-exclamation-triangle mr-3" style="font-size: 2rem" />
-                        <span v-if="product">Are you sure you want to delete the selected products?</span>
+                        <span v-if="media">Are you sure you want to delete the selected medias?</span>
                     </div>
                     <template #footer>
-                        <Button label="No" icon="pi pi-times" class="p-button-text" @click="deleteProductsDialog = false" />
-                        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteSelectedProducts" />
+                        <Button label="No" icon="pi pi-times" class="p-button-text" @click="deleteMediasDialog = false" />
+                        <Button label="Yes" icon="pi pi-check" class="p-button-text" @click="deleteSelectedMedias" />
                     </template>
                 </Dialog>
             </div>
@@ -188,110 +172,92 @@
 
 <script>
 import { FilterMatchMode } from 'primevue/api';
-import ProductService from '@/service/ProductService';
+import MediaService from '@/service/MediaService';
+
 
 export default {
     data() {
         return {
-            products: null,
-            productDialog: false,
-            deleteProductDialog: false,
-            deleteProductsDialog: false,
-            product: {},
-            selectedProducts: null,
+            medias: null,
+            mediaDialog: false,
+            deleteMediaDialog: false,
+            deleteMediasDialog: false,
+            media: {},
+            selectedMedias: null,
             filters: {},
             submitted: false,
             statuses: [
-                { label: 'INSTOCK', value: 'instock' },
-                { label: 'LOWSTOCK', value: 'lowstock' },
-                { label: 'OUTOFSTOCK', value: 'outofstock' },
+                { label: 'UNPROCESSED', value: 'unprocessed' },
+                { label: 'RUN', value: 'run' },
+                { label: 'SCHEDULED', value: 'scheduled' },
             ],
         };
     },
-    productService: null,
+    mediaService: null,
     created() {
-        this.productService = new ProductService();
+        this.mediaService = new MediaService();
         this.initFilters();
     },
     mounted() {
-        this.productService.getProducts().then((data) => (this.products = data));
+        this.mediaService.getMedias().then((data) => (this.medias = data));
     },
     methods: {
-        formatCurrency(value) {
-            if (value) return value.toLocaleString('en-US', { style: 'currency', currency: 'USD' });
-            return;
-        },
         openNew() {
-            this.product = {};
+            this.media = {};
             this.submitted = false;
-            this.productDialog = true;
+            this.mediaDialog = true;
         },
         hideDialog() {
-            this.productDialog = false;
+            this.mediaDialog = false;
             this.submitted = false;
         },
-        saveProduct() {
+        saveMedia() {
             this.submitted = true;
-            if (this.product.name.trim()) {
-                if (this.product.id) {
-                    this.product.inventoryStatus = this.product.inventoryStatus.value ? this.product.inventoryStatus.value : this.product.inventoryStatus;
-                    this.products[this.findIndexById(this.product.id)] = this.product;
-                    this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Updated', life: 3000 });
+            if (this.media.title.trim()) {
+                if (this.media.ID) {
+                    this.mediaService.getMedia(this.media.ID).then((data) => (this.media = data));
+                    this.media.status = this.media.status.value ? this.media.status.value : this.media.status;
+                    this.mediaService.updateMedia(this.media.ID, this.media).then(() => {
+                        this.mediaService.getMedias().then((data) => (this.medias = data));
+                        this.media = {};
+                        this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Media Updated', life: 3000 });
+                    });
                 } else {
-                    this.product.id = this.createId();
-                    this.product.code = this.createId();
-                    this.product.image = 'product-placeholder.svg';
-                    this.product.inventoryStatus = this.product.inventoryStatus ? this.product.inventoryStatus.value : 'INSTOCK';
-                    this.products.push(this.product);
-                    this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Created', life: 3000 });
+                    this.media.status = this.media.status ? this.media.status.value : 'UNPROCESSED';
+                    this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Media Created', life: 3000 });
                 }
-                this.productDialog = false;
-                this.product = {};
+                this.mediaDialog = false;
+                this.media = {};
             }
         },
-        editProduct(product) {
-            this.product = { ...product };
-            this.productDialog = true;
+        editMedia(media) {
+            this.media = { ...media };
+            this.mediaDialog = true;
         },
-        confirmDeleteProduct(product) {
-            this.product = product;
-            this.deleteProductDialog = true;
+        confirmDeleteMedia(media) {
+            this.media = media;
+            this.deleteMediaDialog = true;
         },
-        deleteProduct() {
-            this.products = this.products.filter((val) => val.id !== this.product.id);
-            this.deleteProductDialog = false;
-            this.product = {};
-            this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Product Deleted', life: 3000 });
-        },
-        findIndexById(id) {
-            let index = -1;
-            for (let i = 0; i < this.products.length; i++) {
-                if (this.products[i].id === id) {
-                    index = i;
-                    break;
-                }
-            }
-            return index;
-        },
-        createId() {
-            let id = '';
-            var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-            for (var i = 0; i < 5; i++) {
-                id += chars.charAt(Math.floor(Math.random() * chars.length));
-            }
-            return id;
+        deleteMedia() {
+            this.mediaService.deleteMedia(this.media.ID).then(() => {
+                this.mediaService.getMedias().then((data) => (this.medias = data));
+                this.deleteMediaDialog = false;
+                this.media = {};
+                this.submitted = false;
+                this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Media Deleted', life: 3000 });
+            });
         },
         exportCSV() {
             this.$refs.dt.exportCSV();
         },
         confirmDeleteSelected() {
-            this.deleteProductsDialog = true;
+            this.deleteMediasDialog = true;
         },
-        deleteSelectedProducts() {
-            this.products = this.products.filter((val) => !this.selectedProducts.includes(val));
-            this.deleteProductsDialog = false;
-            this.selectedProducts = null;
-            this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Products Deleted', life: 3000 });
+        deleteSelectedMedias() {
+            this.medias = this.medias.filter((val) => !this.selectedMedias.includes(val));
+            this.deleteMediasDialog = false;
+            this.selectedMedias = null;
+            this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Medias Deleted', life: 3000 });
         },
         initFilters() {
             this.filters = {

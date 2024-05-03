@@ -1,18 +1,18 @@
-export default class ProgramService {
-    getPrograms() {
-        return fetch('https://streamer-api-nehy8.ondigitalocean.app/private/content/programs')
+export default class AudioService {
+    getAudios() {
+        return fetch('https://streamer-api-nehy8.ondigitalocean.app/private/content/audios')
             .then((res) => res.json())
             .then((d) => d);
     }
 
-    getProgram(uuid) {
-        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/programs/${uuid}`)
+    getAudio(uuid) {
+        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/audios/${uuid}`)
             .then((res) => res.json())
             .then((d) => d);
     }
 
-    deleteProgram(uuid) {
-        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/programs/${uuid}`;
+    deleteAudio(uuid) {
+        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/audios/${uuid}`;
         const requestOptions = {
             method: 'DELETE',
             headers: {
@@ -32,8 +32,8 @@ export default class ProgramService {
             });
     }
 
-    ingestProgram(permalink) {
-        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/external/programs/ingest?permalink=${permalink}`;
+    ingestAudio(permalink) {
+        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/external/audios/ingest?permalink=${permalink}`;
         const requestOptions = {
             method: 'POST',
             headers: {
@@ -53,8 +53,8 @@ export default class ProgramService {
             });
     }
 
-    updateProgram(uuid, program) {
-        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/internal/programs/${uuid}`;
+    updateAudio(uuid, audio) {
+        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/internal/audios/${uuid}`;
 
         const requestOptions = {
             method: 'PUT',
@@ -62,7 +62,7 @@ export default class ProgramService {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ status: program.status }),
+            body: JSON.stringify({ status: audio.status }),
         };
 
         return fetch(url, requestOptions)
