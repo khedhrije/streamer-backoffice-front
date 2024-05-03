@@ -48,6 +48,7 @@
             @config-button-click="onConfigButtonClick"
         ></AppConfig>
 
+
         <div v-if="staticMenuMobileActive" class="layout-mask"></div>
         <Toast />
     </div>

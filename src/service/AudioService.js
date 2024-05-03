@@ -11,6 +11,12 @@ export default class AudioService {
             .then((d) => d);
     }
 
+    getAudioByMediaUUID(uuid) {
+        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/medias/${uuid}/audio`)
+          .then((res) => res.json())
+          .then((d) => d);
+    }
+
     deleteAudio(uuid) {
         const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/audios/${uuid}`;
         const requestOptions = {

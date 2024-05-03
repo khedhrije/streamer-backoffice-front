@@ -24,11 +24,27 @@ const routes = [
                 },
             },
             {
+                path: 'programs/:ID',
+                name: 'programDetails',
+                component: () => import('@/views/pages/Program.vue'),
+                meta: {
+                    breadcrumb: [{ parent: 'Content', label: 'Program Details' }],
+                },
+            },
+            {
                 path: '/medias',
                 name: 'medias',
                 component: () => import('@/views/pages/Medias.vue'),
                 meta: {
                     breadcrumb: [{ parent: 'Content', label: 'Medias' }],
+                },
+            },
+            {
+                path: 'medias/:ID',
+                name: 'mediaDetails',
+                component: () => import('@/views/pages/Media.vue'),
+                meta: {
+                    breadcrumb: [{ parent: 'Content', label: 'Media Details' }],
                 },
             },
             {

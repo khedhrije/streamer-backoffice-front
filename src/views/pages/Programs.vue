@@ -20,6 +20,8 @@
                     ref="dt"
                     :value="programs"
                     v-model:selection="selectedPrograms"
+                    selectionMode="single"
+                    :metaKeySelection="metaKey"
                     dataKey="ID"
                     :paginator="true"
                     :rows="5"
@@ -38,9 +40,7 @@
                             </IconField>
                         </div>
                     </template>
-
-                    <Column selectionMode="multiple" headerStyle="max-width: 0.5rem"></Column>
-                    <Column header="Picture" headerStyle="width:14%; min-width:10rem;">
+                   <Column header="Picture" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Picture</span>
                             <img :src="slotProps.data.picture" :alt="slotProps.data.image" class="shadow-2" width="100" />
@@ -82,8 +82,11 @@
                             {{ slotProps.data.country }}
                         </template>
                     </Column>
-                    <Column headerStyle="width:14%; min-width:10rem;">
+                    <Column headerStyle="width:14%; min-width:15rem;">
                         <template #body="slotProps">
+                            <router-link :to="'/programs/' + slotProps.data.ID "  rel="noopener">
+                                <Button icon="pi pi-eye" class="p-button-rounded p-button-info mr-2" />
+                            </router-link>
                             <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editProgram(slotProps.data)" />
                             <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteProgram(slotProps.data)" />
                         </template>
@@ -101,21 +104,6 @@
                         <label for="name">Title</label>
                         <InputText id="title" v-model.trim="program.title" :disabled="program.prvider != 'internal'" required="true" autofocus :class="{ 'p-invalid': submitted && !program.title }" />
                         <small class="p-invalid" v-if="submitted && !program.title">Title is required.</small>
-                    </div>
-                    <div class="field">
-                        <label for="description">Description</label>
-                        <Textarea id="description" v-model="program.description" :disabled="program.prvider != 'internal'" required="true" rows="5" cols="20" />
-                    </div>
-
-                    <div class="formgrid grid">
-                        <div class="field col">
-                            <label for="provider">Country</label>
-                            <InputText id="provider" v-model="program.country" :disabled="program.prvider != 'internal'" />
-                        </div>
-                        <div class="field col">
-                            <label for="provider">Language</label>
-                            <InputText id="provider" v-model="program.language" :disabled="program.prvider != 'internal'" />
-                        </div>
                     </div>
 
                     <div class="field">
@@ -255,9 +243,9 @@ export default {
             this.submitted = true;
             this.programService.ingestProgram(this.permalink).then(() => {
                 this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Program Ingestion started', life: 3000 });
-              this.permalink = null;
-              this.programIngestDialog = false;
-              this.submitted = false;
+                this.permalink = null;
+                this.programIngestDialog = false;
+                this.submitted = false;
             });
         },
         editProgram(program) {
