@@ -10,10 +10,10 @@
                         <span class="font-bold">{{ slotProps.item.title }}</span>
                         <div class="flex align-items-center gap-2">
                             <i class="pi pi-tag text-sm"></i>
-                            <span>{{ slotProps.item.provider }}</span>
+                            <span>{{ slotProps.item.description }}</span>
                         </div>
                     </div>
-                    <span class="font-bold">{{ slotProps.item.status }}</span>
+                    <span class="font-bold">{{ slotProps.item.ID }}</span>
                 </div>
             </template>
         </PickList>

@@ -42,7 +42,6 @@
 </template>
 
 <script>
-import ProductService from '@/service/ProductService';
 
 export default {
     data() {
@@ -133,10 +132,7 @@ export default {
             selectedProduct: null,
         };
     },
-    productService: null,
-    eventService: null,
     created() {
-        this.productService = new ProductService();
     },
     mounted() {
         this.productService.getProducts().then((data) => (this.products = data));
@@ -154,12 +150,13 @@ export default {
 
 <script setup>
 import { ref, onMounted } from 'vue';
-import EventService from '@/service/EventService';
 
 onMounted(async () => {
     events.value = await getEvents();
     options.value = { ...options.value, ...{ events: events.value } };
     events.value.forEach((item) => tags.value.push(item.tag));
+  this.productService.getProducts().then((data) => (this.products = data));
+
 });
 
 const tags = ref([]);
@@ -179,10 +176,8 @@ const options = ref({
 });
 
 const events = ref(null);
-const eventService = ref(new EventService());
 
 const getEvents = async () => {
-    const response = eventService.value.getEvents();
 
     return response;
 };

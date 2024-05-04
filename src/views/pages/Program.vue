@@ -109,7 +109,7 @@
         </div>
         <div v-if="activeTab === 0" class="card mt-1 col-12">
             <div class="col-12 grid mt-1">
-                <div class="col-12 md:col-6 lg:col-4">
+                <div class="col-12 md:col-6 lg:col-6">
                     <div class="card">
                         <h5>Program Details</h5>
                         <div class="p-fluid formgrid grid">
@@ -123,38 +123,13 @@
                             </div>
                             <div class="field col-12 md:col-6">
                                 <label for="country">Country</label>
-                                <Dropdown v-model="program.country" :options="countries" optionLabel="name" placeholder="Select a Country" class="w-full md:w-14rem" />
+                                <Dropdown v-model="program.country" :options="countries" placeholder="Select a Country" class="w-full md:w-14rem" />
                             </div>
                             <div class="field col-12 md:col-6">
                                 <label for="state">Language</label>
-                                <Dropdown v-model="program.langauge" :options="languages" optionLabel="name" placeholder="Select a Language" class="w-full md:w-14rem" />
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-4">
-                    <div class="card">
-                        <h5>Picture</h5>
-                        <FileUpload name="demo[]" url="/api/upload" @upload="uploadImage" :multiple="false" accept="image/*" :maxFileSize="1000000">
-                            <template #empty>
-                                <p>Drag and drop files here to upload.</p>
-                            </template>
-                        </FileUpload>
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-4">
-                    <div class="card">
-                        <h5>Scheduling</h5>
-                        <div class="p-fluid formgrid grid">
-                            <div class="field col-12 md:col-6">
-                                <label for="title2">Start publication date</label>
-                                <Calendar  />
+                                <Dropdown v-model="program.language" :options="languages" placeholder="Select a Language" class="w-full md:w-14rem" />
                             </div>
                             <div class="field col-12 md:col-6">
-                                <label for="lastname2">End publication date</label>
-                                <Calendar  />
-                            </div>
-                            <div class="field col-12">
                                 <label for="status" class="mb-3">Status</label>
                                 <Dropdown id="status" v-model="program.status" :options="statuses" optionLabel="label" placeholder="Select a Status">
                                     <template #value="slotProps">
@@ -170,10 +145,33 @@
                                     </template>
                                 </Dropdown>
                             </div>
+                            <div class="field col-12 md:col-6">
+                                <label for="status" class="mb-3">Provider</label>
+                                <Dropdown id="status" v-model="program.provider" :options="providers" optionLabel="label" placeholder="Select a Provider">
+                                    <template #value="slotProps">
+                                        <div v-if="slotProps.value && slotProps.value.value">
+                                            <span :class="'provider-badge status-' + slotProps.value">{{ slotProps.value.label }}</span>
+                                        </div>
+                                        <div v-else-if="slotProps.value && !slotProps.value.value">
+                                            <span :class="'provider-badge status-' + slotProps.value.toLowerCase()">{{ slotProps.value }}</span>
+                                        </div>
+                                        <span v-else>
+                                            {{ slotProps.placeholder }}
+                                        </span>
+                                    </template>
+                                </Dropdown>
+                            </div>
                         </div>
+
+                        <h5>Picture</h5>
+                        <FileUpload name="demo[]" url="/api/upload" @upload="uploadImage" :multiple="false" accept="image/*" :maxFileSize="1000000">
+                            <template #empty>
+                                <p>Drag and drop files here to upload.</p>
+                            </template>
+                        </FileUpload>
                     </div>
                 </div>
-            </div>
+            </div>x
         </div>
         <div v-if="activeTab === 1" class="card mt-1 col-12">
             <MediaCrud :program="program" />
@@ -222,20 +220,17 @@ export default {
                 { label: 'Tags', icon: 'pi pi-list' },
             ],
             activeTab: 0,
-            countries: [
-                { name: 'France', code: 'FR' },
-                { name: 'United States', code: 'USA' },
-                { name: 'Tunisia', code: 'TN' },
-            ],
-            languages: [
-                { name: 'Arabic', code: 'AR' },
-                { name: 'English', code: 'EN' },
-                { name: 'French', code: 'FR' },
-            ],
+            countries: ['United States', 'Tunisia', 'France'],
+            languages: ['Arabic', 'English', 'French'],
             statuses: [
                 { label: 'UNPROCESSED', value: 'unprocessed' },
                 { label: 'RUN', value: 'run' },
                 { label: 'SCHEDULED', value: 'scheduled' },
+            ],
+            providers: [
+                { label: 'INTERNAL', value: 'internal' },
+                { label: 'RADIOLINE', value: 'radioline' },
+                { label: 'AI', value: 'artificial intelligence' },
             ],
             allBlocks: [],
             selectedBlocks: [],

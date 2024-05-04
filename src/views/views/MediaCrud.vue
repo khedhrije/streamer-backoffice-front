@@ -37,8 +37,6 @@
                             </IconField>
                         </div>
                     </template>
-
-                    <Column selectionMode="multiple" headerStyle="max-width: 0.5rem"></Column>
                     <Column header="Picture" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Picture</span>
@@ -57,32 +55,17 @@
                             {{ slotProps.data.title }}
                         </template>
                     </Column>
-                    <Column field="provider" header="Provider" :sortable="true" headerStyle="width:14%; min-width:10rem;">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Provider</span>
-                            <span :class="'provider-badge provider-' + (slotProps.data.provider ? slotProps.data.provider.toLowerCase() : '')">{{ slotProps.data.provider }}</span>
-                        </template>
-                    </Column>
                     <Column field="status" header="Status" :sortable="true" headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
                             <span class="p-column-title">Status</span>
                             <span :class="'status-badge status-' + (slotProps.data.status ? slotProps.data.status.toLowerCase() : '')">{{ slotProps.data.status }}</span>
                         </template>
                     </Column>
-                    <Column field="language" header="Language" :sortable="true" headerStyle="width:14%; min-width:10rem;">
-                        <template #body="slotProps">
-                            <span class="p-column-title">Language</span>
-                            {{ slotProps.data.language }}
-                        </template>
-                    </Column>
-                    <Column field="country" header="Country" :sortable="true" headerStyle="width:14%; min-width:10rem;">
-                        <template #body="slotProps">
-                            <span class="p-column-title">country</span>
-                            {{ slotProps.data.country }}
-                        </template>
-                    </Column>
                     <Column headerStyle="width:14%; min-width:10rem;">
                         <template #body="slotProps">
+                            <router-link :to="'/medias/' + slotProps.data.ID" rel="noopener">
+                                <Button icon="pi pi-eye" class="p-button-rounded p-button-info mr-2" />
+                            </router-link>
                             <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editMedia(slotProps.data)" />
                             <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteMedia(slotProps.data)" />
                         </template>
@@ -104,17 +87,6 @@
                     <div class="field">
                         <label for="description">Description</label>
                         <Textarea id="description" v-model="media.description" :disabled="media.prvider != 'internal'" required="true" rows="5" cols="20" />
-                    </div>
-
-                    <div class="formgrid grid">
-                        <div class="field col">
-                            <label for="provider">Country</label>
-                            <InputText id="provider" v-model="media.country" :disabled="media.prvider != 'internal'" />
-                        </div>
-                        <div class="field col">
-                            <label for="provider">Language</label>
-                            <InputText id="provider" v-model="media.language" :disabled="media.prvider != 'internal'" />
-                        </div>
                     </div>
 
                     <div class="field">
