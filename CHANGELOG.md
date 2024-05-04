@@ -4,11 +4,11 @@
 
 **Migration Guide**
 
--   Update theme files.
+- Update theme files.
 
 **Implemented New Features and Enhancements**
 
--   Upgrade to PrimeVue 3.49.1
+- Upgrade to PrimeVue 3.49.1
 
 ## 4.0.0 (2023-04-12)
 
@@ -70,7 +70,7 @@
 - Styles of new PrimeVue components
 - Remove mitt event bus
 
-## 3.0.0 
+## 3.0.0
 
 **Migration Guide**
 
@@ -91,7 +91,8 @@
 - Update theme and layout css files
 - Update containerClass computed property in App.vue.
 - Configure ripple directive inside main.js.
-- Update AppSubmenu.vue to get ripple effect on menuitems and for full compatibility with the PrimeVue MenuModel API properties such as visible, disabled and separator.
+- Update AppSubmenu.vue to get ripple effect on menuitems and for full compatibility with the PrimeVue MenuModel API
+  properties such as visible, disabled and separator.
 
 **Implemented New Features and Enhancements:**
 

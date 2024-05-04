@@ -1,120 +1,120 @@
 .customer-badge,
 .product-badge,
 .order-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
+  border-radius: var(--border-radius);
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px;
 }
 
 .customer-badge {
-    &.status-qualified {
-        background: #C8E6C9;
-        color: #256029;
-    }
+  &.status-qualified {
+    background: #C8E6C9;
+    color: #256029;
+  }
 
-    &.status-unqualified {
-        background: #FFCDD2;
-        color: #C63737;
-    }
+  &.status-unqualified {
+    background: #FFCDD2;
+    color: #C63737;
+  }
 
-    &.status-negotiation {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
+  &.status-negotiation {
+    background: #FEEDAF;
+    color: #8A5340;
+  }
 
-    &.status-new {
-        background: #B3E5FC;
-        color: #23547B;
-    }
+  &.status-new {
+    background: #B3E5FC;
+    color: #23547B;
+  }
 
-    &.status-renewal {
-        background: #ECCFFF;
-        color: #694382;
-    }
+  &.status-renewal {
+    background: #ECCFFF;
+    color: #694382;
+  }
 
-    &.status-proposal {
-        background: #FFD8B2;
-        color: #805B36;
-    }
+  &.status-proposal {
+    background: #FFD8B2;
+    color: #805B36;
+  }
 }
 
 .status-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
+  border-radius: var(--border-radius);
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px;
 
-    &.status-run {
-        background: #C8E6C9;
-        color: #256029;
-    }
+  &.status-run {
+    background: #C8E6C9;
+    color: #256029;
+  }
 
-    &.status-unprocessed {
-        background: #FFCDD2;
-        color: #C63737;
-    }
+  &.status-unprocessed {
+    background: #FFCDD2;
+    color: #C63737;
+  }
 
-    &.status-scheduled {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
+  &.status-scheduled {
+    background: #FEEDAF;
+    color: #8A5340;
+  }
 }
 
 
 .provider-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
+  border-radius: var(--border-radius);
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px;
 
-    &.provider-internal {
-        background: #B3E5FC;
-        color: #01579B;
-    }
+  &.provider-internal {
+    background: #B3E5FC;
+    color: #01579B;
+  }
 
-    &.provider-radioline {
-        background: #FFE0B2;
-        color: #E65100;
-    }
+  &.provider-radioline {
+    background: #FFE0B2;
+    color: #E65100;
+  }
 
-    &.provider-generated {
-        background: #C8E6C9;
-        color: #2E7D32;
-    }
+  &.provider-generated {
+    background: #C8E6C9;
+    color: #2E7D32;
+  }
 }
 
 .order-badge {
-    border-radius: var(--border-radius);
-    padding: .25em .5rem;
-    text-transform: uppercase;
-    font-weight: 700;
-    font-size: 12px;
-    letter-spacing: .3px;
+  border-radius: var(--border-radius);
+  padding: .25em .5rem;
+  text-transform: uppercase;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: .3px;
 
-    &.order-delivered {
-        background: #C8E6C9;
-        color: #256029;
-    }
+  &.order-delivered {
+    background: #C8E6C9;
+    color: #256029;
+  }
 
-    &.order-cancelled {
-        background: #FFCDD2;
-        color: #C63737;
-    }
+  &.order-cancelled {
+    background: #FFCDD2;
+    color: #C63737;
+  }
 
-    &.order-pending {
-        background: #FEEDAF;
-        color: #8A5340;
-    }
+  &.order-pending {
+    background: #FEEDAF;
+    color: #8A5340;
+  }
 
-    &.order-returned {
-        background: #ECCFFF;
-        color: #694382;
-    }
+  &.order-returned {
+    background: #ECCFFF;
+    color: #694382;
+  }
 }

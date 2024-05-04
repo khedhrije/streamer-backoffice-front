@@ -11,7 +11,8 @@
           </template>
 
           <template v-slot:end>
-            <FileUpload disabled mode="basic" accept="image/*" :maxFileSize="1000000" label="Import" chooseLabel="Import" class="mr-2 inline-block" />
+            <FileUpload disabled mode="basic" accept="image/*" :maxFileSize="1000000" label="Import"
+                        chooseLabel="Import" class="mr-2 inline-block" />
             <Button label="Export" icon="pi pi-upload" class="p-button-help" @click="exportCSV($event)" />
           </template>
         </Toolbar>
@@ -46,37 +47,41 @@
               <img :src="slotProps.data.picture" :alt="slotProps.data.image" class="shadow-2" width="100" />
             </template>
           </Column>
-          <Column field="ID" header="ID" :sortable="true" headerStyle="width:20%; min-width:10rem;">
+          <Column field="ID" header="ID" headerStyle="width:20%; min-width:10rem;">
             <template #body="slotProps">
               <span class="p-column-title">ID</span>
               {{ slotProps.data.ID }}
             </template>
           </Column>
-          <Column field="title" header="Title" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+          <Column field="title" header="Title" headerStyle="width:14%; min-width:10rem;">
             <template #body="slotProps">
               <span class="p-column-title">Name</span>
               {{ slotProps.data.title }}
             </template>
           </Column>
-          <Column field="provider" header="Provider" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+          <Column field="provider" header="Provider" headerStyle="width:14%; min-width:10rem;">
             <template #body="slotProps">
               <span class="p-column-title">Provider</span>
-              <span :class="'provider-badge provider-' + (slotProps.data.provider ? slotProps.data.provider.toLowerCase() : '')">{{ slotProps.data.provider }}</span>
+              <span
+                :class="'provider-badge provider-' + (slotProps.data.provider ? slotProps.data.provider.toLowerCase() : '')">{{ slotProps.data.provider
+                }}</span>
             </template>
           </Column>
-          <Column field="status" header="Status" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+          <Column field="status" header="Status" headerStyle="width:14%; min-width:10rem;">
             <template #body="slotProps">
               <span class="p-column-title">Status</span>
-              <span :class="'status-badge status-' + (slotProps.data.status ? slotProps.data.status.toLowerCase() : '')">{{ slotProps.data.status }}</span>
+              <span
+                :class="'status-badge status-' + (slotProps.data.status ? slotProps.data.status.toLowerCase() : '')">{{ slotProps.data.status
+                }}</span>
             </template>
           </Column>
-          <Column field="language" header="Language" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+          <Column field="language" header="Language" headerStyle="width:14%; min-width:10rem;">
             <template #body="slotProps">
               <span class="p-column-title">Language</span>
               {{ slotProps.data.language }}
             </template>
           </Column>
-          <Column field="country" header="Country" :sortable="true" headerStyle="width:14%; min-width:10rem;">
+          <Column field="country" header="Country" headerStyle="width:14%; min-width:10rem;">
             <template #body="slotProps">
               <span class="p-column-title">country</span>
               {{ slotProps.data.country }}
@@ -84,27 +89,34 @@
           </Column>
           <Column headerStyle="width:14%; min-width:10rem;">
             <template #body="slotProps">
-              <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" @click="editAudio(slotProps.data)" />
-              <Button icon="pi pi-trash" class="p-button-rounded p-button-warning" @click="confirmDeleteAudio(slotProps.data)" />
+              <Button icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2"
+                      @click="editAudio(slotProps.data)" />
+              <Button icon="pi pi-trash" class="p-button-rounded p-button-warning"
+                      @click="confirmDeleteAudio(slotProps.data)" />
             </template>
           </Column>
         </DataTable>
 
-        <Dialog v-model:visible="audioDialog" :style="{ width: '600px' }" header="Audio Details" :modal="true" class="p-fluid">
-          <img :src="audio.picture" :alt="audio.picture" v-if="audio.picture" width="150" class="mt-0 mx-auto mb-5 block shadow-2" />
+        <Dialog v-model:visible="audioDialog" :style="{ width: '600px' }" header="Audio Details" :modal="true"
+                class="p-fluid">
+          <img :src="audio.picture" :alt="audio.picture" v-if="audio.picture" width="150"
+               class="mt-0 mx-auto mb-5 block shadow-2" />
           <div class="field">
             <label for="ID">ID</label>
-            <InputText id="ID" v-model.trim="audio.ID" :disabled="audio.prvider != 'internal'" required="true" autofocus :class="{ 'p-invalid': submitted && !audio.ID }" />
+            <InputText id="ID" v-model.trim="audio.ID" :disabled="audio.prvider != 'internal'" required="true" autofocus
+                       :class="{ 'p-invalid': submitted && !audio.ID }" />
             <small class="p-invalid" v-if="submitted && !audio.ID">ID is required.</small>
           </div>
           <div class="field">
             <label for="name">Title</label>
-            <InputText id="title" v-model.trim="audio.title" :disabled="audio.prvider != 'internal'" required="true" autofocus :class="{ 'p-invalid': submitted && !audio.title }" />
+            <InputText id="title" v-model.trim="audio.title" :disabled="audio.prvider != 'internal'" required="true"
+                       autofocus :class="{ 'p-invalid': submitted && !audio.title }" />
             <small class="p-invalid" v-if="submitted && !audio.title">Title is required.</small>
           </div>
           <div class="field">
             <label for="description">Description</label>
-            <Textarea id="description" v-model="audio.description" :disabled="audio.prvider != 'internal'" required="true" rows="5" cols="20" />
+            <Textarea id="description" v-model="audio.description" :disabled="audio.prvider != 'internal'"
+                      required="true" rows="5" cols="20" />
           </div>
 
           <div class="formgrid grid">
@@ -120,7 +132,8 @@
 
           <div class="field">
             <label for="status" class="mb-3">Status</label>
-            <Dropdown id="status" v-model="audio.status" :options="statuses" optionLabel="label" placeholder="Select a Status">
+            <Dropdown id="status" v-model="audio.status" :options="statuses" optionLabel="label"
+                      placeholder="Select a Status">
               <template #value="slotProps">
                 <div v-if="slotProps.value && slotProps.value.value">
                   <span :class="'status-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
@@ -141,10 +154,12 @@
           </template>
         </Dialog>
 
-        <Dialog v-model:visible="audioIngestDialog" :style="{ width: '600px' }" header="Audio Ingest" :modal="true" class="p-fluid">
+        <Dialog v-model:visible="audioIngestDialog" :style="{ width: '600px' }" header="Audio Ingest" :modal="true"
+                class="p-fluid">
           <div class="field">
             <label for="permalink">Permalink</label>
-            <InputText id="permalink" v-model.trim="permalink" required="true" autofocus :class="{ 'p-invalid': submitted && !permalink }" />
+            <InputText id="permalink" v-model.trim="permalink" required="true" autofocus
+                       :class="{ 'p-invalid': submitted && !permalink }" />
             <small class="p-invalid" v-if="submitted && !permalink">Permalink is required.</small>
           </div>
 
@@ -184,9 +199,8 @@
 </template>
 
 <script>
-import { FilterMatchMode } from 'primevue/api';
-import AudioService from '@/service/AudioService';
-import router from '@/router';
+import { FilterMatchMode } from "primevue/api";
+import AudioService from "@/service/AudioService";
 
 export default {
   data() {
@@ -202,10 +216,10 @@ export default {
       filters: {},
       submitted: false,
       statuses: [
-        { label: 'UNPROCESSED', value: 'unprocessed' },
-        { label: 'RUN', value: 'run' },
-        { label: 'SCHEDULED', value: 'scheduled' },
-      ],
+        { label: "UNPROCESSED", value: "unprocessed" },
+        { label: "RUN", value: "run" },
+        { label: "SCHEDULED", value: "scheduled" }
+      ]
     };
   },
   audioService: null,
@@ -241,11 +255,11 @@ export default {
           this.audioService.updateAudio(this.audio.ID, this.audio).then(() => {
             this.audioService.getAudios().then((data) => (this.audios = data));
             this.audio = {};
-            this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Audio Updated', life: 3000 });
+            this.$toast.add({ severity: "success", summary: "Successful", detail: "Audio Updated", life: 3000 });
           });
         } else {
-          this.audio.status = this.audio.status ? this.audio.status.value : 'UNPROCESSED';
-          this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Audio Created', life: 3000 });
+          this.audio.status = this.audio.status ? this.audio.status.value : "UNPROCESSED";
+          this.$toast.add({ severity: "success", summary: "Successful", detail: "Audio Created", life: 3000 });
         }
         this.audioDialog = false;
         this.audio = {};
@@ -254,7 +268,7 @@ export default {
     ingestAudio() {
       this.submitted = true;
       this.audioService.ingestAudio(this.permalink).then(() => {
-        this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Audio Ingestion started', life: 3000 });
+        this.$toast.add({ severity: "success", summary: "Successful", detail: "Audio Ingestion started", life: 3000 });
         this.permalink = null;
         this.audioIngestDialog = false;
         this.submitted = false;
@@ -274,7 +288,7 @@ export default {
         this.deleteAudioDialog = false;
         this.audio = {};
         this.submitted = false;
-        this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Audio Deleted', life: 3000 });
+        this.$toast.add({ severity: "success", summary: "Successful", detail: "Audio Deleted", life: 3000 });
       });
     },
     exportCSV() {
@@ -287,14 +301,14 @@ export default {
       this.audios = this.audios.filter((val) => !this.selectedAudios.includes(val));
       this.deleteAudiosDialog = false;
       this.selectedAudios = null;
-      this.$toast.add({ severity: 'success', summary: 'Successful', detail: 'Audios Deleted', life: 3000 });
+      this.$toast.add({ severity: "success", summary: "Successful", detail: "Audios Deleted", life: 3000 });
     },
     initFilters() {
       this.filters = {
-        global: { value: null, matchMode: FilterMatchMode.CONTAINS },
+        global: { value: null, matchMode: FilterMatchMode.CONTAINS }
       };
-    },
-  },
+    }
+  }
 };
 </script>
 
