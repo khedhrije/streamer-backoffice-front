@@ -1,21 +1,21 @@
-export default class MediaService {
-    getMedias() {
-        return fetch('https://streamer-api-nehy8.ondigitalocean.app/private/content/medias')
+export default class Categorieservice {
+    getCategories() {
+        return fetch('https://streamer-api-nehy8.ondigitalocean.app/private/classification/categories')
             .then((res) => res.json())
             .then((d) => d);
     }
-    getMedia(uuid) {
-        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/medias/${uuid}`)
+    getCategoriesByProgramUUID(uuid) {
+        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/programs/${uuid}/categories`)
             .then((res) => res.json())
             .then((d) => d);
     }
-    getMediasByProgramUUID(uuid) {
-        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/programs/${uuid}/medias`)
-          .then((res) => res.json())
-          .then((d) => d);
+    getCategory(uuid) {
+        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/classification/categories/${uuid}`)
+            .then((res) => res.json())
+            .then((d) => d);
     }
-    deleteMedia(uuid) {
-        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/medias/${uuid}`;
+    deleteCategory(uuid) {
+        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/classification/categories/${uuid}`;
         const requestOptions = {
             method: 'DELETE',
             headers: {
@@ -34,8 +34,8 @@ export default class MediaService {
                 console.error('Error:', error);
             });
     }
-    updateMedia(uuid, media) {
-        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/internal/medias/${uuid}`;
+    updateCategory(uuid, category) {
+        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/classification/categories/${uuid}`;
 
         const requestOptions = {
             method: 'PUT',
@@ -43,7 +43,7 @@ export default class MediaService {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ status: media.status }),
+            body: JSON.stringify({ status: category.status }),
         };
 
         return fetch(url, requestOptions)

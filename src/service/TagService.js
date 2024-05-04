@@ -1,21 +1,21 @@
-export default class MediaService {
-    getMedias() {
-        return fetch('https://streamer-api-nehy8.ondigitalocean.app/private/content/medias')
+export default class TagService {
+    getTags() {
+        return fetch('https://streamer-api-nehy8.ondigitalocean.app/private/classification/tags')
             .then((res) => res.json())
             .then((d) => d);
     }
-    getMedia(uuid) {
-        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/medias/${uuid}`)
+    getTagsByProgramUUID(uuid) {
+        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/programs/${uuid}/tags`)
             .then((res) => res.json())
             .then((d) => d);
     }
-    getMediasByProgramUUID(uuid) {
-        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/programs/${uuid}/medias`)
-          .then((res) => res.json())
-          .then((d) => d);
+    getTag(uuid) {
+        return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/classification/tags/${uuid}`)
+            .then((res) => res.json())
+            .then((d) => d);
     }
-    deleteMedia(uuid) {
-        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/medias/${uuid}`;
+    deleteTag(uuid) {
+        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/classification/tags/${uuid}`;
         const requestOptions = {
             method: 'DELETE',
             headers: {
@@ -34,8 +34,8 @@ export default class MediaService {
                 console.error('Error:', error);
             });
     }
-    updateMedia(uuid, media) {
-        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/internal/medias/${uuid}`;
+    updateTag(uuid, tag) {
+        const url = `https://streamer-api-nehy8.ondigitalocean.app/private/classification/tags/${uuid}`;
 
         const requestOptions = {
             method: 'PUT',
@@ -43,7 +43,7 @@ export default class MediaService {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
             },
-            body: JSON.stringify({ status: media.status }),
+            body: JSON.stringify({ status: tag.status }),
         };
 
         return fetch(url, requestOptions)

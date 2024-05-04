@@ -104,90 +104,58 @@
                 </div>
             </div>
         </div>
-        <div class="card mt-1 col-12">
-            <TabMenu :model="tabs" v-model:activeIndex="activeTab" />
-        </div>
-        <div v-if="activeTab === 0" class="card mt-1 col-12">
-            <div class="col-12 grid mt-1">
-                <div class="col-12 md:col-6 lg:col-4">
-                    <div class="card">
-                        <h5>Program Details</h5>
-                        <div class="p-fluid formgrid grid">
-                            <div class="field col-12">
-                                <label for="title">Title</label>
-                                <InputText type="text" v-model="program.title" />
-                            </div>
-                            <div class="field col-12">
-                                <label for="description">Description</label>
-                                <Textarea id="address" auto-resize rows="5" v-model="program.description" />
-                            </div>
-                            <div class="field col-12 md:col-6">
-                                <label for="country">Country</label>
-                                <Dropdown v-model="program.country" :options="countries" optionLabel="name" placeholder="Select a Country" class="w-full md:w-14rem" />
-                            </div>
-                            <div class="field col-12 md:col-6">
-                                <label for="state">Language</label>
-                                <Dropdown v-model="program.langauge" :options="languages" optionLabel="name" placeholder="Select a Language" class="w-full md:w-14rem" />
+
+        <div class="grid mt-1">
+            <div class="col-7">
+                <div class="card">
+                    <TabMenu :model="tabs" v-model:activeIndex="activeTab" />
+                </div>
+                <div v-if="activeTab == 0" class="card">General</div>
+                <div v-if="activeTab == 1" class="card">Medias</div>
+                <div v-if="activeTab == 2" class="card">Blocks</div>
+                <div v-if="activeTab == 3" class="card">Categories</div>
+                <div v-if="activeTab == 4" class="card">Tags</div>
+            </div>
+            <div class="col-5">
+                <DataView :value="medias" paginator :rows="5">
+                    <template #list="slotProps">
+                        <div class="grid grid-nogutter">
+                            <div v-for="item in slotProps.items" :key="item.ID" class="col-12">
+                                <div class="flex flex-column sm:flex-row sm:align-items-center p-4 gap-3" :class="{ 'border-top-1 surface-border': item }">
+                                    <div class="md:w-10rem relative">
+                                        <img class="block xl:block mx-auto border-round w-full" :src="item.picture" :alt="item.title" />
+                                        <Tag :value="item.status" class="absolute" style="left: 4px; top: 4px"></Tag>
+                                    </div>
+                                    <div class="flex flex-column md:flex-row justify-content-between md:align-items-center flex-1 gap-4">
+                                        <div class="flex flex-row md:flex-column justify-content-between align-items-start gap-2">
+                                            <div>
+                                                <span class="font-medium text-secondary text-sm">{{ item.ID }}</span>
+                                                <div class="text-lg font-medium text-900 mt-2">{{ item.title }}</div>
+                                            </div>
+                                            <div>
+                                                <span class="font-medium text-secondary text-sm">{{ formatTime(item.duration) }}</span>
+                                            </div>
+                                            <input v-if="item.ID === selectedMedia.ID" type="range" :value="currentTime" :max="duration" @input="seek($event.target.value)" />
+                                        </div>
+                                        <div class="flex flex-column md:align-items-end gap-5">
+                                            <div class="flex flex-row-reverse md:flex-row gap-2">
+                                                <!-- Play button only shows if media is not playing or a different media is playing -->
+                                                <Button v-if="!isPlaying || item.ID !== selectedMedia.ID" icon="pi pi-play" outlined @click="play(item)"></Button>
+                                                <!-- Pause button shows only when this specific media is playing and is not paused -->
+                                                <Button v-if="item.ID === selectedMedia.ID && isPlaying && !isPaused" icon="pi pi-pause" outlined @click="pause()"></Button>
+                                                <!-- View details button -->
+                                                <router-link :to="'/medias/' + item.ID" rel="noopener">
+                                                    <Button icon="pi pi-eye" outlined class="p-button-info mr-2" />
+                                                </router-link>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-4">
-                    <div class="card">
-                        <h5>Picture</h5>
-                        <FileUpload name="demo[]" url="/api/upload" @upload="uploadImage" :multiple="false" accept="image/*" :maxFileSize="1000000">
-                            <template #empty>
-                                <p>Drag and drop files here to upload.</p>
-                            </template>
-                        </FileUpload>
-                    </div>
-                </div>
-                <div class="col-12 md:col-6 lg:col-4">
-                    <div class="card">
-                        <h5>Scheduling</h5>
-                        <div class="p-fluid formgrid grid">
-                            <div class="field col-12 md:col-6">
-                                <label for="title2">Start publication date</label>
-                                <Calendar  />
-                            </div>
-                            <div class="field col-12 md:col-6">
-                                <label for="lastname2">End publication date</label>
-                                <Calendar  />
-                            </div>
-                            <div class="field col-12">
-                                <label for="status" class="mb-3">Status</label>
-                                <Dropdown id="status" v-model="program.status" :options="statuses" optionLabel="label" placeholder="Select a Status">
-                                    <template #value="slotProps">
-                                        <div v-if="slotProps.value && slotProps.value.value">
-                                            <span :class="'status-badge status-' + slotProps.value.value">{{ slotProps.value.label }}</span>
-                                        </div>
-                                        <div v-else-if="slotProps.value && !slotProps.value.value">
-                                            <span :class="'status-badge status-' + slotProps.value.toLowerCase()">{{ slotProps.value }}</span>
-                                        </div>
-                                        <span v-else>
-                                            {{ slotProps.placeholder }}
-                                        </span>
-                                    </template>
-                                </Dropdown>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                    </template>
+                </DataView>
             </div>
-        </div>
-        <div v-if="activeTab === 1" class="card mt-1 col-12">
-            <MediaCrud :program="program" />
-        </div>
-        <div v-if="activeTab === 2" class="card mt-1 col-12">
-            <div class="card">
-                <BlockPicker :program="program" />
-            </div>
-        </div>
-        <div v-if="activeTab === 3" class="card mt-1 col-12">
-            <CategoryPicker :program="program" />
-        </div>
-        <div v-if="activeTab === 4" class="card mt-1 col-12">
-            <TagPicker :program="program" />
         </div>
     </div>
 </template>
@@ -196,18 +164,12 @@
 import ProgramService from '@/service/ProgramService';
 import MediaService from '@/service/MediaService';
 import AudioService from '@/service/AudioService';
-import MediaCrud from '@/views/views/MediaCrud.vue';
-import BlockPicker from '@/views/views/BlockPicker.vue';
-import CategoryPicker from '@/views/views/CategoryPicker.vue';
-import TagPicker from '@/views/views/TagPicker.vue';
 
 export default {
-    components: { TagPicker, CategoryPicker, BlockPicker, MediaCrud },
     data() {
         return {
             program: {},
             medias: [],
-            products: null,
             isPlaying: false,
             isPaused: false,
             selectedMedia: {},
@@ -222,23 +184,6 @@ export default {
                 { label: 'Tags', icon: 'pi pi-list' },
             ],
             activeTab: 0,
-            countries: [
-                { name: 'France', code: 'FR' },
-                { name: 'United States', code: 'USA' },
-                { name: 'Tunisia', code: 'TN' },
-            ],
-            languages: [
-                { name: 'Arabic', code: 'AR' },
-                { name: 'English', code: 'EN' },
-                { name: 'French', code: 'FR' },
-            ],
-            statuses: [
-                { label: 'UNPROCESSED', value: 'unprocessed' },
-                { label: 'RUN', value: 'run' },
-                { label: 'SCHEDULED', value: 'scheduled' },
-            ],
-            allBlocks: [],
-            selectedBlocks: [],
         };
     },
 
@@ -254,7 +199,6 @@ export default {
     mounted() {
         this.programService.getProgram(this.$route.params.ID).then((data) => (this.program = data));
         this.mediaService.getMediasByProgramUUID(this.$route.params.ID).then((data) => (this.medias = data));
-        this.mediaService.getMediasByProgramUUID(this.$route.params.ID).then((data) => (this.products = [data, []]));
     },
     computed: {
         totalMedias() {
@@ -271,9 +215,6 @@ export default {
         },
     },
     methods: {
-        test() {
-            console.log(this.products);
-        },
         play(media) {
             this.selectedMedia = media;
             this.audioService.getAudioByMediaUUID(this.selectedMedia.ID).then((data) => {
@@ -284,9 +225,6 @@ export default {
                     this.playAudio();
                 });
             });
-        },
-        uploadImage() {
-            this.toast.add({ severity: 'info', summary: 'Success', detail: 'File Uploaded', life: 3000 });
         },
 
         playAudio() {

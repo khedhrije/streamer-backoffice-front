@@ -6,7 +6,7 @@
                     <button class="p-link" @click="home"><i class="pi pi-home"></i></button>
                 </li>
                 <template v-if="$route.meta.breadcrumb">
-                    <li v-if="$route.meta.breadcrumb[0].parent">/</li>
+
                     <li v-if="$route.meta.breadcrumb[0].parent">{{ $route.meta.breadcrumb[0].parent }}</li>
                     <li>/</li>
                     <li>{{ $route.meta.breadcrumb[0].label }}</li>

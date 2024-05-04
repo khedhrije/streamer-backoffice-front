@@ -4,19 +4,16 @@ export default class AudioService {
             .then((res) => res.json())
             .then((d) => d);
     }
-
     getAudio(uuid) {
         return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/audios/${uuid}`)
             .then((res) => res.json())
             .then((d) => d);
     }
-
     getAudioByMediaUUID(uuid) {
         return fetch(`https://streamer-api-nehy8.ondigitalocean.app/private/content/medias/${uuid}/audio`)
           .then((res) => res.json())
           .then((d) => d);
     }
-
     deleteAudio(uuid) {
         const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/audios/${uuid}`;
         const requestOptions = {
@@ -37,7 +34,6 @@ export default class AudioService {
                 console.error('Error:', error);
             });
     }
-
     ingestAudio(permalink) {
         const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/external/audios/ingest?permalink=${permalink}`;
         const requestOptions = {
@@ -58,7 +54,6 @@ export default class AudioService {
                 console.error('Error:', error);
             });
     }
-
     updateAudio(uuid, audio) {
         const url = `https://streamer-api-nehy8.ondigitalocean.app/private/content/internal/audios/${uuid}`;
 
